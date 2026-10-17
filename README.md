@@ -4,7 +4,7 @@
 
 The PostgreSQL database image for the platform-demo product catalog. It is the official `postgres:17` image with a single init script baked in that creates the `products` table and seeds 9 products. It is read by exactly one consumer: `product-catalog-service`.
 
-Part of the [platform-demo](https://github.com/mladenovskistefan111) platform — microservices, observability (LGTM stack), GitOps (Argo CD), policy enforcement (Kyverno), infrastructure provisioning (Crossplane) and an internal developer portal (Backstage). See the master `README.md` in the platform-demo root for the whole-system view.
+Part of the [platform-demo](https://github.com/platform-boutique) platform — microservices, observability (LGTM stack), GitOps (Argo CD), policy enforcement (Kyverno), infrastructure provisioning (Crossplane) and an internal developer portal (Backstage). See the master `README.md` in the platform-demo root for the whole-system view.
 
 ## At a glance
 
@@ -142,7 +142,7 @@ resources:
 
 **Observability:** Postgres exposes no metrics natively (add a `postgres-exporter` sidecar if you want DB metrics). It cannot speak OTLP either, so its stdout logs must be collected by the platform (Alloy `loki.source.docker` in compose, `loki.source.kubernetes` in the cluster, selecting pods labelled `app.kubernetes.io/component=database`). The chart sets that label.
 
-**Helm chart:** [`platform-demo-helm/product-catalog-db`](https://github.com/mladenovskistefan111/platform-demo-helm/tree/main/product-catalog-db) — single-replica `StatefulSet` (headless + ClusterIP Services), PVC via `volumeClaimTemplates`
+**Helm chart:** [`platform-demo-helm/product-catalog-db`](https://github.com/platform-boutique/platform-demo-helm/tree/main/product-catalog-db) — single-replica `StatefulSet` (headless + ClusterIP Services), PVC via `volumeClaimTemplates`
 (retained on uninstall/scale-down), `PGDATA=/var/lib/postgresql/data/pgdata` (avoids the `lost+found` problem), non-root `999:999` with `fsGroup`, read-only root filesystem
 (`emptyDir` at `/tmp` and `/var/run/postgresql`), `pg_isready` startup/readiness/liveness probes, NetworkPolicy allowing only `product-catalog-service`.
 Credentials: set `auth.existingSecret` (keys `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`) or `auth.password`; the install fails if neither is provided.
