@@ -1,5 +1,7 @@
 # product-catalog-db
 
+> **Temporary.** This image exists only for local testing (kind). It is hand-built, has no pipeline and no signature, and is replaced by **Amazon RDS** when the application is deployed on AWS; at that point this repository, its Helm chart and the allow-list entry in the Helm CI are deleted.
+
 The PostgreSQL database image for the platform-demo product catalog. It is the official `postgres:17` image with a single init script baked in that creates the `products` table and seeds 9 products. It is read by exactly one consumer: `product-catalog-service`.
 
 Part of the [platform-demo](https://github.com/mladenovskistefan111) platform — microservices, observability (LGTM stack), GitOps (Argo CD), policy enforcement (Kyverno), infrastructure provisioning (Crossplane) and an internal developer portal (Backstage). See the master `README.md` in the platform-demo root for the whole-system view.
