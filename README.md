@@ -142,11 +142,13 @@ resources:
 
 **Observability:** Postgres exposes no metrics natively (add a `postgres-exporter` sidecar if you want DB metrics). It cannot speak OTLP either, so its stdout logs must be collected by the platform (Alloy `loki.source.docker` in compose, `loki.source.kubernetes` in the cluster, selecting pods labelled `app.kubernetes.io/component=database`). The chart sets that label.
 
-**Helm chart:** [`platform-demo-helm/product-catalog-db`](../platform-demo-helm/product-catalog-db) — single-replica `StatefulSet` (headless + ClusterIP Services), PVC via `volumeClaimTemplates`
+**Helm chart:** [`platform-demo-helm/product-catalog-db`](https://github.com/mladenovskistefan111/platform-demo-helm/tree/main/product-catalog-db) — single-replica `StatefulSet` (headless + ClusterIP Services), PVC via `volumeClaimTemplates`
 (retained on uninstall/scale-down), `PGDATA=/var/lib/postgresql/data/pgdata` (avoids the `lost+found` problem), non-root `999:999` with `fsGroup`, read-only root filesystem
 (`emptyDir` at `/tmp` and `/var/run/postgresql`), `pg_isready` startup/readiness/liveness probes, NetworkPolicy allowing only `product-catalog-service`.
 Credentials: set `auth.existingSecret` (keys `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`) or `auth.password`; the install fails if neither is provided.
 Verified on a 3-node kind cluster under the `restricted` Pod Security Standard (read-only root, seed data loaded, `product-catalog-service` reading it).
+
+**Deployment:** temporary, local-testing image (no release pipeline; on AWS the database is RDS and this chart is deleted). Argo CD deploys the chart from `platform-demo-helm`. Kyverno admits this unsigned image only under the label `app.kubernetes.io/name: product-catalog-db` with exactly this repository pinned by digest (a documented PolicyException, `platform-demo-helm/policies`).
 
 ## Running locally
 
