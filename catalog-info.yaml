@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: product-catalog-db
+  title: product-catalog-db
+  description: "> **Temporary.** This image exists only for local testing (kind)."
+  annotations:
+    github.com/project-slug: platform-boutique/app-product-catalog-db
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: product-catalog-db
+    backstage.io/kubernetes-namespace: platform-demo
+    backstage.io/kubernetes-label-selector: app.kubernetes.io/name=product-catalog-db
+    argocd/app-name: dev-product-catalog-db
+  tags: [postgresql, database]
+  links:
+    - { url: "https://github.com/platform-boutique/app-product-catalog-db", title: Repository, icon: github }
+    - { url: "https://argocd.platform-demo.test/applications/argocd/dev-product-catalog-db", title: Argo CD, icon: dashboard }
+spec:
+  type: database
+  lifecycle: experimental
+  owner: group:default/maintainers
+  system: shop
