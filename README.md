@@ -1,10 +1,10 @@
 # product-catalog-db
 
-> **Temporary.** This image exists only for local testing (kind). It is hand-built, has no pipeline and no signature, and is replaced by **Amazon RDS** when the application is deployed on AWS; at that point this repository, its Helm chart and the allow-list entry in the Helm CI are deleted.
+> **Temporary.** This image is hand-built, has no pipeline and no signature. Its `StatefulSet` stays in the cluster for now: the shop is going to move to another cluster later, so it is not replaced by Amazon RDS (the only RDS database is the one behind Backstage). Until then the Helm chart, the allow-list entry in the Helm CI and the Kyverno PolicyException stay.
 
 The PostgreSQL database image for the platform-demo product catalog. It is the official `postgres:17` image with a single init script baked in that creates the `products` table and seeds 9 products. It is read by exactly one consumer: `product-catalog-service`.
 
-Part of the [platform-demo](https://github.com/platform-boutique) platform — microservices, observability (LGTM stack), GitOps (Argo CD), policy enforcement (Kyverno), infrastructure provisioning (Crossplane) and an internal developer portal (Backstage). See the master `README.md` in the platform-demo root for the whole-system view.
+Part of the [platform-demo](https://github.com/platform-boutique) platform — microservices, observability (LGTM stack), GitOps (Argo CD), policy enforcement (Kyverno), infrastructure provisioning (Terraform) and an internal developer portal (Backstage). See the master `README.md` in the platform-demo root for the whole-system view.
 
 ## At a glance
 
@@ -146,9 +146,9 @@ resources:
 (retained on uninstall/scale-down), `PGDATA=/var/lib/postgresql/data/pgdata` (avoids the `lost+found` problem), non-root `999:999` with `fsGroup`, read-only root filesystem
 (`emptyDir` at `/tmp` and `/var/run/postgresql`), `pg_isready` startup/readiness/liveness probes, NetworkPolicy allowing only `product-catalog-service`.
 Credentials: set `auth.existingSecret` (keys `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`) or `auth.password`; the install fails if neither is provided.
-Verified on a 3-node kind cluster under the `restricted` Pod Security Standard (read-only root, seed data loaded, `product-catalog-service` reading it).
+Verified in the earlier local phase on a 3-node kind cluster (since deleted) under the `restricted` Pod Security Standard (read-only root, seed data loaded, `product-catalog-service` reading it); not verified on EKS yet.
 
-**Deployment:** temporary, local-testing image (no release pipeline; on AWS the database is RDS and this chart is deleted). Argo CD deploys the chart from `platform-demo-helm`. Kyverno admits this unsigned image only under the label `app.kubernetes.io/name: product-catalog-db` with exactly this repository pinned by digest (a documented PolicyException, `platform-demo-helm/policies`).
+**Deployment:** temporary, hand-built image (no release pipeline); the `StatefulSet` stays in the cluster for now because the shop moves to another cluster later (it is not replaced by RDS). Argo CD deploys the chart from `platform-demo-helm`. Kyverno admits this unsigned image only under the label `app.kubernetes.io/name: product-catalog-db` with exactly this repository pinned by digest (a documented PolicyException, `platform-demo-helm/policies`).
 
 ## Running locally
 

@@ -3,7 +3,7 @@ kind: Component
 metadata:
   name: product-catalog-db
   title: product-catalog-db
-  description: "> **Temporary.** This image exists only for local testing (kind)."
+  description: "> **Temporary.** Hand-built image; its StatefulSet stays in the cluster for now (the shop moves to another cluster later)."
   annotations:
     github.com/project-slug: platform-boutique/app-product-catalog-db
     backstage.io/source-location: url:https://github.com/platform-boutique/app-product-catalog-db/tree/main/
@@ -14,7 +14,7 @@ metadata:
     argocd/app-name: dev-product-catalog-db
   tags: [postgresql, database]
   links:
-    - { url: "https://argocd.platform-demo.test/applications/argocd/dev-product-catalog-db", title: Argo CD, icon: dashboard }
+    - { url: "https://argocd.platform-demo.click/applications/argocd/dev-product-catalog-db", title: Argo CD, icon: dashboard }
 spec:
   type: database
   lifecycle: experimental

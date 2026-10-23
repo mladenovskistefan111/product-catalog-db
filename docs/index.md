@@ -3,7 +3,7 @@
 <div class="pd-hero" markdown>
 <span class="pd-kicker">database · platform-demo</span>
 
-> **Temporary.** This image exists only for local testing (kind). It is hand-built, has no pipeline and no signature, and is replaced by **Amazon RDS** when the application is deployed on AWS; at that point this repository, its Helm chart and the allow-list entry in the Helm CI are deleted.
+> **Temporary.** This image is hand-built, has no pipeline and no signature. Its `StatefulSet` stays in the cluster for now: the shop is going to move to another cluster later, so it is not replaced by Amazon RDS (the only RDS database is the one behind Backstage). Until then the Helm chart, the allow-list entry in the Helm CI and the Kyverno PolicyException stay.
 </div>
 
 <div class="pd-facts" markdown>
@@ -41,7 +41,7 @@ flowchart LR
 ## Find it elsewhere
 
 <div class="pd-cards" markdown>
-<div><h4><a href="https://argocd.platform-demo.test/applications/argocd/dev-product-catalog-db">Argo CD</a></h4><p>Sync and health of <code>dev-product-catalog-db</code>.</p></div>
+<div><h4><a href="https://argocd.platform-demo.click/applications/argocd/dev-product-catalog-db">Argo CD</a></h4><p>Sync and health of <code>dev-product-catalog-db</code>.</p></div>
 
 <div><h4><a href="https://github.com/platform-boutique/app-product-catalog-db">Repository</a></h4><p>Source, pull requests and releases of <code>app-product-catalog-db</code>.</p></div>
 </div>
