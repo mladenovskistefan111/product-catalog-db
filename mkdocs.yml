@@ -1,5 +1,5 @@
 site_name: product-catalog-db
-site_description: '> **Temporary.** This image exists only for local testing (kind).'
+site_description: '> **Temporary.** Hand-built image; its StatefulSet stays in the cluster for now (the shop moves to another cluster later).'
 repo_url: https://github.com/platform-boutique/app-product-catalog-db
 edit_uri: edit/main/docs/
 nav:
